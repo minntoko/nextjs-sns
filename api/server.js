@@ -10,11 +10,13 @@ const prisma = new PrismaClient
 app.post("/api/auto/register", async (req, res) => {
     const { userName, email, password } = req.body;
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = await prisma.user.create({
       data: {
         userName,
         email,
-        password,
+        password: hashedPassword,
       }
     });
     return res.json({user});
