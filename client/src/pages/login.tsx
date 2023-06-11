@@ -20,8 +20,6 @@ const Login = () => {
       });
 
       const token = response.data.token;
-      console.log(token);
-      
 
       router.push("/");
     } catch (error) {
