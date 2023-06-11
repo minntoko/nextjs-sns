@@ -1,4 +1,6 @@
+import apiClient from "@/lib/apiClient";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 const Signup = () => {
@@ -6,11 +8,23 @@ const Signup = () => {
   const [email, setEmail] = useState<String>("");
   const [password, setPassword] = useState<String>("");
 
-  const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // ここで新規登録を行うAPIを叩く
-  }
+    try {
+      await apiClient.post("/auth/register", {
+        userName: name,
+        email: email,
+        password: password,
+      });
+      router.push("/login");
+    } catch (error) {
+      alert("入力内容が正しくありません。");
+    }
+  };
 
   return (
     <div
@@ -42,7 +56,9 @@ const Signup = () => {
                 autoComplete="name"
                 required
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setName(e.target.value)
+                }
               />
             </div>
             <div className="mt-6">
@@ -59,7 +75,9 @@ const Signup = () => {
                 autoComplete="email"
                 required
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setEmail(e.target.value)
+                }
               />
             </div>
             <div className="mt-6">
@@ -76,7 +94,9 @@ const Signup = () => {
                 autoComplete="new-password"
                 required
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setPassword(e.target.value)
+                }
               />
             </div>
             <div className="mt-6">
