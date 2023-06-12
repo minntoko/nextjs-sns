@@ -21,9 +21,9 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: AuthContextProps) => {
 
-  const token = localStorage.getItem("auth_token");
-
+  
   useEffect(() => {
+    const token = localStorage.getItem("auth_token");
     apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
   }, []);
 
