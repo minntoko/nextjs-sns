@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 router.post("/post", async (req, res) => {
   const { content } = req.body;
 
-  if(!content) {
+  if (!content) {
     return res.status(400).json({ message: "投稿内容がありません" });
   }
 
@@ -18,7 +18,10 @@ router.post("/post", async (req, res) => {
       data: {
         content,
         authorId: 1,
-      }
+      },
+      include: {
+        author: true,
+      },
     });
     res.status(201).json(newPost);
   } catch (error) {
@@ -30,7 +33,13 @@ router.post("/post", async (req, res) => {
 // 最新つぶやき取得用API
 router.get("/get_latest_post", async (req, res) => {
   try {
-    const latestPosts = await prisma.post.findMany({take: 10, orderBy: {createdAt: "desc"}});
+    const latestPosts = await prisma.post.findMany({
+      take: 10,
+      orderBy: { createdAt: "desc" },
+      include: {
+        author: true,
+      },
+    });
     return res.status(200).json(latestPosts);
   } catch (error) {
     console.log(error);
