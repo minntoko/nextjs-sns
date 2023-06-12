@@ -16,7 +16,7 @@ const Post = ({post}: Props) => {
           />
           <div>
             <h2 className="font-semibold text-md">{post.author?.userName}</h2>
-            <p className="text-gray-500 text-sm">{post.createdAt}</p>
+            <p className="text-gray-500 text-sm">{new Date(post.createdAt).toLocaleString()}</p>
           </div>
         </div>
         <p className="text-gray-700">{post.content}</p>

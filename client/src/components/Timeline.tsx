@@ -1,10 +1,9 @@
 import apiClient from "@/lib/apiClient";
 import Post from "./Post";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { PostType } from "@/types";
 
 const Timeline = () => {
-
   const [postText, setPostText] = useState<string>("");
   const [latestPosts, setLatestPosts] = useState<PostType[]>([]);
 
@@ -15,12 +14,24 @@ const Timeline = () => {
       const newPost = await apiClient.post("/posts/post", {
         content: postText,
       });
-      setLatestPosts((prevPosts) => [newPost.data, ...prevPosts])
+      setLatestPosts((prevPosts) => [newPost.data, ...prevPosts]);
       setPostText("");
     } catch (error) {
       alert("ログインしていないまたは、投稿内容が空です。");
     }
-  }
+  };
+
+  useEffect(() => {
+    const fetchLatestPosts = async () => {
+      try {
+        const response = await apiClient.get("/posts/get_latest_post");
+        setLatestPosts(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchLatestPosts();
+  }, []);
   return (
     <div className="min-h-screen bg-gray-100">
       <main className="container mx-auto py-4">
@@ -29,7 +40,9 @@ const Timeline = () => {
             <textarea
               className="w-full h-24 p-2 border border-gray-300 rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="What's on your mind?"
-              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setPostText(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+                setPostText(e.target.value)
+              }
               value={postText}
             ></textarea>
             <button
