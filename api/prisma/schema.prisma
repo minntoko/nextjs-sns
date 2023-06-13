@@ -30,7 +30,6 @@ model Post {
 model Profile {
   id Int @id @default(autoincrement())
   bio String?
-  userName String
   profileImageUrl String?
   userId Int @unique
   user User @relation(fields: [userId], references: [id])
