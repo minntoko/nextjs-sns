@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }: AuthContextProps) => {
 
   const login = async (token: string) => {
     localStorage.setItem("auth_token", token);
+    apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
   }
 
   const logout = () => {
