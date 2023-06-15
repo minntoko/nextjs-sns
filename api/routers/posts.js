@@ -60,7 +60,7 @@ router.get("/get_latest_post", async (req, res) => {
 router.get("/:userId", async (req, res) => {
   const { userId } = req.params;
   try {
-    const userPosts = await prisma.post.findMany({
+    const posts = await prisma.post.findMany({
       where: {
         authorId: parseInt(userId),
       },
@@ -68,6 +68,19 @@ router.get("/:userId", async (req, res) => {
       include: {
         author: true,
       },
+    });
+    const userPosts = posts.map((post) => {
+      return {
+        id: post.id,
+        content: post.content,
+        createdAt: post.createdAt,
+        authorId: post.authorId,
+        author: {
+          id: post.author.id,
+          userName: post.author.userName,
+          email: post.author.email,
+        },
+      };
     });
     res.status(200).json(userPosts);
   } catch (error) {
