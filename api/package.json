@@ -13,6 +13,7 @@
     "@prisma/client": "^4.15.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "identicon.js": "^2.3.3",

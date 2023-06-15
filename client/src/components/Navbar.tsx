@@ -5,8 +5,6 @@ import React from "react";
 const Navbar = () => {
   const { user, logout } = useAuth();
 
-  console.log(user);
-
   return (
     <header className="bg-gray-700 p-4 text-white">
       <div className="container mx-auto flex justify-between items-center">
