@@ -1,8 +1,10 @@
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import Timeline from "@/components/Timeline";
+require('dotenv').config();
 
 export default function Home() {
+  console.log(process.env.BASE_URL);
   return (
     <>
       <Head>
